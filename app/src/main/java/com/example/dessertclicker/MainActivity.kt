@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.dessertclicker
 
 import android.content.ActivityNotFoundException
@@ -82,7 +66,6 @@ class MainActivity : ComponentActivity() {
         Log.d(TAG, "onCreate Called")
         setContent {
             DessertClickerTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
@@ -125,9 +108,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/**
- * Determine which dessert to show.
- */
 fun determineDessertToShow(
     desserts: List<Dessert>,
     dessertsSold: Int
@@ -137,20 +117,12 @@ fun determineDessertToShow(
         if (dessertsSold >= dessert.startProductionAmount) {
             dessertToShow = dessert
         } else {
-            // The list of desserts is sorted by startProductionAmount. As you sell more desserts,
-            // you'll start producing more expensive desserts as determined by startProductionAmount
-            // We know to break as soon as we see a dessert who's "startProductionAmount" is greater
-            // than the amount sold.
             break
         }
     }
 
     return dessertToShow
 }
-
-/**
- * Share desserts sold information using ACTION_SEND intent
- */
 private fun shareSoldDessertsInformation(intentContext: Context, dessertsSold: Int, revenue: Int) {
     val sendIntent = Intent().apply {
         action = Intent.ACTION_SEND
@@ -220,12 +192,8 @@ private fun DessertClickerApp(
             dessertsSold = dessertsSold,
             dessertImageId = currentDessertImageId,
             onDessertClicked = {
-
-                // Update the revenue
                 revenue += currentDessertPrice
                 dessertsSold++
-
-                // Show the next dessert
                 val dessertToShow = determineDessertToShow(desserts, dessertsSold)
                 currentDessertImageId = dessertToShow.imageId
                 currentDessertPrice = dessertToShow.price
